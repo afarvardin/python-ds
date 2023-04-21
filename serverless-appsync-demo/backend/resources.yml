@@ -1,0 +1,52 @@
+# Books table
+Type: AWS::DynamoDB::Table
+Properties: 
+  AttributeDefinitions: 
+    - AttributeName: "bookId"
+      AttributeType: "S"
+
+  BillingMode: PAY_PER_REQUEST 
+  KeySchema: 
+  - AttributeName: "bookId"
+    KeyType: "HASH"
+  Tags: 
+    - Key: name
+      value: "books-table"
+
+
+
+# Order table
+Type: AWS::DynamoDB::Table
+Properties: 
+  AttributeDefinitions: 
+    - AttributeName: "userId"
+      AttributeType: "S"
+    
+    - AttributeName: "orderId"
+      AttributeType: "S"
+    
+    - AttributeName: "bookID"
+      AttributeType: "S"
+
+    - AttributeName: "createAt"
+      AttributeType: "S"
+
+    BillingMode: PAY_PER_REQUEST 
+    KeySchema: 
+    - AttributeName: "bookId"
+      KeyType: "HASH"
+    - AttributeName: "orderId"
+      KeyType: "RANGE"
+
+    GlobalSecondaryIndexes: 
+      IndexName: "byorder"
+      KeySchema: 
+        - AttributeName: "bookId"
+          KeyType: "HASH"
+        - AttributeName: "createAt"
+          KeyType: "RANGE"
+      Projection: 
+        ProjectionType: ALL
+    Tags: 
+      - Key: name
+        value: "order-table"
